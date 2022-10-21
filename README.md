@@ -21,6 +21,8 @@ Javascript 및 Canvas API로 구축된 Meme Maker 앱.
 
 ## 👀 강의 내용
 
+내용정리 블로그로 보러가기👉 
+
 - Canvas API 이용 방법
 - 선 그리는 방법
 - 색깔을 바꾸는 방법
