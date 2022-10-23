@@ -1,5 +1,5 @@
 // 변수 만들기
-
+const modeBtn = document.getElementById('mode-btn');
 /** 13. 배열 생성한다.  */
 const colorOptions = Array.from(
   // document.getElementsByClassName('color-option')자체는 배열이 아니라 HTMLCollection이기 때문에 이걸 JS배열로 만들어준다.
@@ -10,6 +10,7 @@ const lineWidth = document.getElementById('line-width');
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 let isPainting = false;
+let isFilling = false;
 
 // 캔버스 크기 지정하기
 canvas.width = 800;
@@ -61,6 +62,26 @@ function onColorClick(event) {
   color.value = colorValue;
 }
 
+/** 15. modeBtn를 클릭하면 모드를 바꿔준다. */
+function onModeClick() {
+  // 만약 isFilling이 true이면 innerText를 Fill로 바꿔준다.
+  if (isFilling) {
+    isFilling = false;
+    modeBtn.innerText = 'Fill';
+  } else {
+    // isFilling이 false면 innerText를 Draw로 바꿔준다.
+    isFilling = true;
+    modeBtn.innerText = 'Draw';
+  }
+}
+
+/** 17. 캔버스 크기의 새로운 사각형을 만들고, 해당 색상으로 채워준다. */
+function onCanvasClick() {
+  if (isFilling) {
+    ctx.fillRect(0, 0, 800, 800);
+  }
+}
+
 /** 1. 유저가 canvas위에서 마우스를 움직일 때마다 moveTo를 호출한다. */
 canvas.addEventListener('mousemove', onMove);
 
@@ -83,6 +104,9 @@ canvas.addEventListener('mousedown', startPainting);
 canvas.addEventListener('mouseup', cancelPainting);
 canvas.addEventListener('mouseleave', cancelPainting);
 
+/** 16. 캔버스 채우기 */
+canvas.addEventListener('click', onCanvasClick);
+
 // 선의 굵기 수정
 /** 7. input range가 올라가고 내려가는걸 알아차리는 이벤트리스너를 만든다. */
 lineWidth.addEventListener('change', onLineWidthChange);
@@ -101,3 +125,7 @@ color.addEventListener('change', onColorChange);
 // 각 color마다 이벤트리스너를 추가한다.
 // color를 클릭할때마다 onColorClick 함수를 호출한다.
 colorOptions.forEach(color => color.addEventListener('click', onColorClick));
+
+// 채우기 모드
+/** 14. button에 이벤트리스너를 추가합다.  */
+modeBtn.addEventListener('click', onModeClick);
