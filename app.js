@@ -1,4 +1,6 @@
 // 변수 만들기
+const eraserBtn = document.getElementById('eraser-btn');
+const destroyBtn = document.getElementById('destroy-btn');
 const modeBtn = document.getElementById('mode-btn');
 /** 13. 배열 생성한다.  */
 const colorOptions = Array.from(
@@ -11,10 +13,12 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 let isPainting = false;
 let isFilling = false;
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 800;
 
 // 캔버스 크기 지정하기
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
 
 // 선 굵기 지정하기
 ctx.lineWidth = lineWidth.value;
@@ -78,8 +82,22 @@ function onModeClick() {
 /** 17. 캔버스 크기의 새로운 사각형을 만들고, 해당 색상으로 채워준다. */
 function onCanvasClick() {
   if (isFilling) {
-    ctx.fillRect(0, 0, 800, 800);
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   }
+}
+
+/** 19. 그린 것 자체를 지울 수 없고, 흰 색상을 선택하고 채우기 모드로 바꿔준다. */
+function onDestroyClick() {
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
+/** 21. strokeStyle을 흰 색상으로 바꿔준다.*/
+function onEraserClick() {
+  ctx.strokeStyle = 'white';
+  // 채우기 모드일때, eraser를 선택하면 다시 그리기모드로 바꿔준다.
+  isFilling = false;
+  modeBtn.innerText = 'Fill';
 }
 
 /** 1. 유저가 canvas위에서 마우스를 움직일 때마다 moveTo를 호출한다. */
@@ -129,3 +147,11 @@ colorOptions.forEach(color => color.addEventListener('click', onColorClick));
 // 채우기 모드
 /** 14. button에 이벤트리스너를 추가합다.  */
 modeBtn.addEventListener('click', onModeClick);
+
+// 초기화
+/** 18. button에 이벤트리스너를 추가한다.  */
+destroyBtn.addEventListener('click', onDestroyClick);
+
+// 지우기
+/** 20. button에 이벤트리스너를 추가한다. */
+eraserBtn.addEventListener('click', onEraserClick);
