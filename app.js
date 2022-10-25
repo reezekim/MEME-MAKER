@@ -141,6 +141,20 @@ function onDoubleClick(event) {
   }
 }
 
+// 26. 저장 버튼을 클릭하면 내 이미지 다운로드한다.
+function onSaveClick() {
+  // 캔버스에 그린 그림을 url로 변환한다.
+  const url = canvas.toDataURL();
+  // a태그를 생성해 가짜 링크를 만든다.
+  const a = document.createElement("a");
+  // 링크의 href는 그림 url로 설정해준다. 
+  a.href = url;
+  // '내그림.png'라는 파일명으로 저장되게 설정해준다.
+  a.download = "myDrawing.png";
+  // a링크를 클릭해주면 파일이 다운로드된다.
+  a.click();
+}
+
 // 24. 더블 클릭 시, 텍스트 추가한다.
 canvas.addEventListener("dblclick", onDoubleClick);
 
