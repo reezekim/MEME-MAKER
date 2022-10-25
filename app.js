@@ -1,4 +1,5 @@
 // 변수 만들기
+const fileInput = document.getElementById("file");
 const eraserBtn = document.getElementById('eraser-btn');
 const destroyBtn = document.getElementById('destroy-btn');
 const modeBtn = document.getElementById('mode-btn');
@@ -15,6 +16,7 @@ let isPainting = false;
 let isFilling = false;
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 800;
+
 
 // 캔버스 크기 지정하기
 canvas.width = CANVAS_WIDTH;
@@ -100,6 +102,22 @@ function onEraserClick() {
   modeBtn.innerText = 'Fill';
 }
 
+// 23. 유저가 선택한 파일 불러오기
+function onFileChange(event) {
+    const file = event.target.files[0];
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.src = url;
+    image.onload = function() {
+        //drawImage는 이미지를 필요로 하는데, 유저에게 받아온 이미지를 이미 가지고 있다.
+        // 그 다음 필요한 건, 이미지를 배치하고 싶은 위치를 적어준다.
+        // 이미 사이즈도 설정해준다.
+        ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        // 24. 이미지를 그릴 때 file input을 비운다.
+        fileInput.value = null;
+    };
+}
+
 /** 1. 유저가 canvas위에서 마우스를 움직일 때마다 moveTo를 호출한다. */
 canvas.addEventListener('mousemove', onMove);
 
@@ -155,3 +173,8 @@ destroyBtn.addEventListener('click', onDestroyClick);
 // 지우기
 /** 20. button에 이벤트리스너를 추가한다. */
 eraserBtn.addEventListener('click', onEraserClick);
+
+
+// 밈 만들기
+// 22. file Input에 이벤트리스너를 추가한다. 
+fileInput.addEventListener("change", onFileChange);
