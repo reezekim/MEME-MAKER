@@ -1,4 +1,6 @@
 // 변수 만들기
+const saveBtn = document.getElementById("save");
+const textInput = document.getElementById("text");
 const fileInput = document.getElementById("file");
 const eraserBtn = document.getElementById('eraser-btn');
 const destroyBtn = document.getElementById('destroy-btn');
@@ -24,6 +26,8 @@ canvas.height = CANVAS_HEIGHT;
 
 // 선 굵기 지정하기
 ctx.lineWidth = lineWidth.value;
+// 선 끝부분 지정하기
+ctx.lineCap = "round";
 
 function onMove(event) {
   /** 4. 유저가 마우스를 움직이고 isPainting이 true일때 선을 그리도록 한다. */
@@ -118,6 +122,28 @@ function onFileChange(event) {
     };
 }
 
+// 25. 유저가 입력한 텍스트를 저장하고 수정하고 이전으로 되돌린다.
+function onDoubleClick(event) {
+  const text = textInput.value;
+  // 유저가 canvas를 더블클릭해도 인풋창에 text가 없으면 아무것도 하지않는다.
+  if(text !== ""){
+    // save와 restore 사이에서는 정말 어떤 수정을 하던 저장되지 않는다.
+    // 1. 변경되는 코드가 실행되기전에 현재 상태와 선택들을 저장한다.
+    ctx.save(); // .save: ctx의 현재 상태, 색상, 스타일 등 모든걸 저장한다.
+
+    // 2. 상태를 수정하고
+    ctx.lineWidth = 1;
+    ctx.font = "68px serif";
+    ctx.fillText(text, event.offsetX, event.offsetY);
+
+    // 3. 이전상태로 돌아간다.
+    ctx.restore(); // .restore: ctx의 이전 상태를 저장하고 몇가지 변경 후에 그것들을 다시 되돌린다.
+  }
+}
+
+// 24. 더블 클릭 시, 텍스트 추가한다.
+canvas.addEventListener("dblclick", onDoubleClick);
+
 /** 1. 유저가 canvas위에서 마우스를 움직일 때마다 moveTo를 호출한다. */
 canvas.addEventListener('mousemove', onMove);
 
@@ -178,3 +204,6 @@ eraserBtn.addEventListener('click', onEraserClick);
 // 밈 만들기
 // 22. file Input에 이벤트리스너를 추가한다. 
 fileInput.addEventListener("change", onFileChange);
+
+// 
+saveBtn.addEventListener("click", onSaveClick);
