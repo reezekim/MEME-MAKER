@@ -122,10 +122,11 @@ function onFileChange(event) {
     };
 }
 
-// 25. 유저가 입력한 텍스트를 저장하고 수정하고 이전으로 되돌린다.
-function onDoubleClick(event) {
-  const text = textInput.value;
+
+  // 25. 유저가 입력한 텍스트를 저장하고 수정하고 이전으로 되돌린다.
+  function onDoubleClick(event) {
   // 유저가 canvas를 더블클릭해도 인풋창에 text가 없으면 아무것도 하지않는다.
+  const text = textInput.value;
   if(text !== ""){
     // save와 restore 사이에서는 정말 어떤 수정을 하던 저장되지 않는다.
     // 1. 변경되는 코드가 실행되기전에 현재 상태와 선택들을 저장한다.
@@ -219,5 +220,4 @@ eraserBtn.addEventListener('click', onEraserClick);
 // 22. file Input에 이벤트리스너를 추가한다. 
 fileInput.addEventListener("change", onFileChange);
 
-// 
 saveBtn.addEventListener("click", onSaveClick);
